@@ -354,8 +354,8 @@ ovutils::eDest MDPComp::getMdpPipe(hwc_context_t *ctx, ePipeType type) {
 }
 
 bool MDPComp::isFrameDoable(hwc_context_t *ctx) {
+    int numAppLayers = ctx->listStats[mDpy].numAppLayers;
     bool ret = true;
-    const int numAppLayers = ctx->listStats[mDpy].numAppLayers;
 
     if(!isEnabled()) {
         ALOGD_IF(isDebug(),"%s: MDP Comp. not enabled.", __FUNCTION__);
@@ -407,7 +407,7 @@ bool MDPComp::isFullFrameDoable(hwc_context_t *ctx,
     }
 
     //MDP composition is not efficient if layer needs rotator.
-    for(int i = 0; i < numAppLayers; ++i) {
+    for(unsigned int i = 0; i < numAppLayers; ++i) {
         // As MDP h/w supports flip operation, use MDP comp only for
         // 180 transforms. Fail for any transform involving 90 (90, 270).
         hwc_layer_1_t* layer = &list->hwLayers[i];
